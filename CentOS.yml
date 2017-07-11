@@ -1,0 +1,12 @@
+---
+  pkgs:
+    - git
+    - python-virtualenv
+    - mpfr-devel
+    - gmp-devel
+    - openssl-devel
+    - libmpc-devel
+    - libffi-devel
+    - gcc
+    - python-devel
+    # x authbind

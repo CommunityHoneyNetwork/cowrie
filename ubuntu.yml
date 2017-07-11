@@ -1,0 +1,12 @@
+---
+  pkgs:
+    - git
+    - python-virtualenv
+    - libmpfr-dev
+    - libssl-dev
+    - libmpc-dev
+    - libffi-dev
+    - build-essential
+    - libpython-dev
+    - python2.7-minimal
+    - authbind
