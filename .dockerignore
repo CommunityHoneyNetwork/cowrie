@@ -1,2 +1,4 @@
 buildah.sh
 docker.sh
+.gitlab-ci.yml
+.gitignore
