@@ -45,4 +45,4 @@
       - name: add supervisor config
         copy:
           src: cowrie.conf
-          dest: /etc/supervisord.d/cowrie.conf
+          dest: "{{ supervisor_confdir }}/cowrie.conf"

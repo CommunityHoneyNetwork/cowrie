@@ -11,3 +11,5 @@
     - python2.7-minimal
     - supervisor
     - authbind
+
+  supervisor_confdir: /etc/supervisor/conf.d
