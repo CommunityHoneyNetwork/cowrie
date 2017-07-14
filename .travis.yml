@@ -1,7 +1,5 @@
 language: generic
 
-secure: "VvkHs2XAwIMfOQMD2f6bb6pMd9yaqCqLrfY+VpCPAjl/fcSPFx6M3Gm4FZSbdGr9Ipi5nRgQuJX1iwTP/2K+IhDKVl6vXH2kDiwv4/vO5Zawpgou9r5rtRlX3W2BUJdpu71jntnqClPUUs4bFw+mDnIeo9mxKQy1dY1t5++IJoj+wEUNVg53/1vb45EFdiqHY+cc+bHeTlBPFuY7I4xhP1EDTQNOfm+HmFqX/mHs34hbCY4atNmRQaQflfjDZ0QSdFSHBNSfQbLfvQYDZo1yjAnfueevj+xpXIctBgfbS4CkqoBV7clluBEXj4pz60O3o6jHjKC1wjvvWE9I2h2G8sQ+asLLGBTp/e8wYxLZhAtjB17/4PwU9c6phd0As/u072KObyXXnDmlZkFFB5mizG8cnGUxnZ2szrbBljfFHmga5djpu3sVcK2K2qlgWiMoaKaPRkmZyWICOhBV6bZO8RwCQ1b0M9IqzIytegCQvz0uTUyGEw/pNcfIr4B/LCvHayszkI611+YrSD5Oi/Kv7iPUJeMkU0mSf0K2nfpxO4lgYNKlLA5enIolcQCAcBnUwDtLYXT3eS4wNck1k/HR/bQSY8HzImQr6VzrPcq0NfWo3AU1TAZAM++Hn5HnAHgoi59M+7yWIo5hmQJnTX0vaBOctvS/R+VFQd56nX2bSuk="
-
 sudo: required
 
 services:
@@ -11,17 +9,9 @@ env:
   - BUILD=ubuntu
   - BUILD=centos
 
-jobs:
-  include:
-    - stage: "$BUILD"
-      script:
-        - "docker-compose build $BUILD"
-        - "docker-compose run $BUILD /opt/cowrie/bin/cowrie status"
-    - stage: merge
-      script:
-        - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
-  - "chmod a+x /tmp/travis-automerge"
-  - "BRANCHES_TO_MERGE_REGEX='^staging/' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=communityhoneynetwork/cowrie /tmp/travis-automerge"
+script:
+  - "docker-compose build $BUILD"
+  - "docker-compose run $BUILD /opt/cowrie/bin/cowrie status"
 
 notifications:
   email:
