@@ -10,8 +10,8 @@ services:
   - docker
 
 script:
-  - docker-compose build
-  - docker-compose run $BUILD 'echo hello'
+  - "docker-compose build $BUILD"
+  - "docker-compose run $BUILD 'echo hello'"
 
 notifications:
   email:
