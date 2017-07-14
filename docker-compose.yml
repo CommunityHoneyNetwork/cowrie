@@ -1,0 +1,10 @@
+version: '2'
+services:
+  ubuntu:
+    build:
+      context: .
+      dockerfile: Dockerfile-ubuntu
+  centos:
+    build:
+      context: .
+      dockerfile: Dockerfile-centos

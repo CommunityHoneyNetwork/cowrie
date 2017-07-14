@@ -1,12 +1,15 @@
 sudo: required
 
+env:
+  - BUILD=ubuntu
+  - BUILD=centos
+
 services:
   - docker
 
 script:
   - docker-compose build
-  - docker-compose run ubuntu 'echo hello'
-  - docker-compose run centos 'echo goodbye'
+  - docker-compose run $BUILD 'echo hello'
 
 notifications:
   email:

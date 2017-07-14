@@ -9,7 +9,7 @@ LABEL description "Cowrie is a medium interaction SSH and Telnet honeypot design
 LABEL authoritative-source-url "https://github.com/CommunityHoneyNetwork/communityhoneynetwork"
 LABEL changelog-url "https://github.com/CommunityHoneyNetwork/communityhoneynetwork/commits/master"
 
-ENV playbook "CentOS.yml"
+ENV playbook "cowrie.yml"
 
 RUN yum install -y epel-release && yum install -y ansible
 
