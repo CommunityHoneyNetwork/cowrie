@@ -4,19 +4,22 @@ secure: "VvkHs2XAwIMfOQMD2f6bb6pMd9yaqCqLrfY+VpCPAjl/fcSPFx6M3Gm4FZSbdGr9Ipi5nRg
 
 sudo: required
 
+services:
+  - docker
+
 env:
   - BUILD=ubuntu
   - BUILD=centos
 
-services:
-  - docker
-
-script:
-  - "docker-compose build $BUILD"
-  - "docker-compose run $BUILD /opt/cowrie/bin/cowrie status"
-
-after_success:
-  - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
+jobs:
+  include:
+    - stage: "$BUILD"
+      script:
+        - "docker-compose build $BUILD"
+        - "docker-compose run $BUILD /opt/cowrie/bin/cowrie status"
+    - stage: merge
+      script:
+        - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
   - "chmod a+x /tmp/travis-automerge"
   - "BRANCHES_TO_MERGE_REGEX='^staging/' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=communityhoneynetwork/cowrie /tmp/travis-automerge"
 
