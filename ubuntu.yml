@@ -9,4 +9,5 @@
     - build-essential
     - libpython-dev
     - python2.7-minimal
+    - supervisor
     - authbind

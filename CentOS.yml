@@ -9,4 +9,5 @@
     - libffi-devel
     - gcc
     - python-devel
+    - supervisor
     # x authbind
