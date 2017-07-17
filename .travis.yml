@@ -11,7 +11,7 @@ env:
 
 script:
   - "docker-compose build $BUILD"
-  - "docker-compose run $BUILD /opt/cowrie/bin/cowrie status"
+  - "docker-compose run --entrypoint /opt/cowrie/bin/cowrie $BUILD status"
 
 notifications:
   email:
