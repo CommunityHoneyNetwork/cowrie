@@ -11,5 +11,5 @@
     - python-devel
     - supervisor
     # x authbind
-    
+
   supervisor_confdir: /etc/supervisord.d

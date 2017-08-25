@@ -12,7 +12,7 @@
           - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
           - "{{ ansible_distribution }}.yml"
         tags: vars
-      
+
       - name: install dependency packages
         package:
           name: "{{ item }}"
@@ -31,16 +31,14 @@
       - name: clone cowrie source
         git:
           repo: http://github.com/micheloosterhof/cowrie
+          version: v1.2.0
           dest: /opt/cowrie
           depth: 1
-        
+
       - name: install cowrie
         pip:
           requirements: /opt/cowrie/requirements.txt
           virtualenv: /opt/cowrie/cowrie-env
-
-      - name: check install
-        shell: /opt/cowrie/bin/cowrie status
 
       - name: add supervisor config
         copy:
