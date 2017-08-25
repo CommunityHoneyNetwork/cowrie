@@ -1,7 +1,5 @@
 ---
   pkgs:
-    - git
-    - python-virtualenv
     - libmpfr-dev
     - libssl-dev
     - libmpc-dev
@@ -9,7 +7,6 @@
     - build-essential
     - libpython-dev
     - python2.7-minimal
-    - supervisor
     - authbind
 
   supervisor_confdir: /etc/supervisor/conf.d

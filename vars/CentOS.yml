@@ -1,7 +1,5 @@
 ---
   pkgs:
-    - git
-    - python-virtualenv
     - mpfr-devel
     - gmp-devel
     - openssl-devel
@@ -9,7 +7,6 @@
     - libffi-devel
     - gcc
     - python-devel
-    - supervisor
     # x authbind
 
   supervisor_confdir: /etc/supervisord.d

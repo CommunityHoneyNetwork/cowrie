@@ -1,0 +1,10 @@
+---
+  pkgs:
+    - git
+    - python-virtualenv
+    - supervisor
+
+  cowrie_repo: http://github.com/micheloosterhof/cowrie
+
+  cowrie_version: v1.2.0
+
