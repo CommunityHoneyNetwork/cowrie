@@ -38,7 +38,6 @@
           repo: "{{ cowrie_repo }}"
           version: "{{ cowrie_version }}"
           dest: /opt/cowrie
-          depth: 1
 
       - name: install cowrie
         pip:
