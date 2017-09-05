@@ -1,0 +1,24 @@
+# This file is read from /etc/sysconfig/cowrie or /etc/default/cowrie
+# depending on the base distro
+#
+# This can be modified to change the default setup of the cowrie unattended installation
+
+DEBUG=false
+
+# Server to stream data to
+FEEDS_SERVER="http://localhost"
+FEEDS_SERVER_PORT="10000"
+
+# Deploy key from the FEEDS_SERVER administrator
+# This is a REQUIRED value
+DEPLOY_KEY=
+
+# Registration information file
+# If running in a container, this needs to persist
+# COWRIE_JSON="/etc/cowrie.json
+
+# SSH Listen Port
+# Can be set to 22 for deployments on real servers
+# or left at 2222 and have the port mapped if deployed 
+# in a container
+SSH_LISTEN_PORT=2222

@@ -8,5 +8,6 @@
     - libpython-dev
     - python2.7-minimal
     - authbind
+    - runit
 
-  supervisor_confdir: /etc/supervisor/conf.d
+  sysconfig_dir: /etc/default

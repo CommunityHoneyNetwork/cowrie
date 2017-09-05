@@ -2,7 +2,6 @@
   pkgs:
     - git
     - python-virtualenv
-    - supervisor
 
   cowrie_repo: http://github.com/micheloosterhof/cowrie
 
@@ -10,3 +9,5 @@
 
   cowrie_dir: /opt/cowrie
   cowrie_user: cowrie
+
+  runit_service_dir: /etc/service/cowrie
