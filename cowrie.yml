@@ -18,10 +18,15 @@
           file: default.yml
         tags: vars
 
-      - name: install dependency packages
+      - name: install non-specific packages
         package:
           name: "{{ item }}"
         with_items: "{{ pkgs }}"
+
+      - name: install os-specific packages
+        package:
+          name: "{{ item }}"
+        with_items: "{{ pkgs_osspec }}"
 
       - name: add users group
         group:

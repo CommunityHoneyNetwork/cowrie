@@ -1,5 +1,5 @@
 ---
-  pkgs:
+  pkgs_osspec:
     - libmpfr-dev
     - libssl-dev
     - libmpc-dev
