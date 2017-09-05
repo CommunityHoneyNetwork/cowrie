@@ -8,3 +8,5 @@
 
   cowrie_version: v1.2.0
 
+  cowrie_dir: /opt/cowrie
+  cowrie_user: cowrie
