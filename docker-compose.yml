@@ -4,7 +4,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-ubuntu
+    image: cowrie:ubuntu
+    volumes:
+      - ./devel.sysconfig:/etc/default/cowrie:z
+    ports:
+      - "2222:2222"
   centos:
     build:
       context: .
       dockerfile: Dockerfile-centos
+    image: cowrie:centos
+    volumes:
+      - ./devel.sysconfig:/etc/sysconfig/cowrie:z
+    ports:
+      - "2222:2222"
