@@ -78,7 +78,8 @@ main () {
     exit 1
   fi
     
-  if [[ ! -f ${json} ]]
+  # If it doesn't exist or is empty
+  if [[ ! -f ${json}  ]] || [[ ! -s ${json} ]]
   then
     register ${deploy_key} ${server} ${json}
 
@@ -111,7 +112,7 @@ main () {
                     ${ssh_port} \
                     ${debug}
 
-  exec /opt/cowrie/bin/cowrie start
+  exec su - cowrie -c "/opt/cowrie/bin/cowrie start"
 }
 
 main "$@"
