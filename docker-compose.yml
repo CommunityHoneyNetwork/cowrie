@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile-ubuntu
     image: cowrie:ubuntu
     volumes:
-      - ./devel.sysconfig:/etc/default/cowrie:z
+      - ./cowrie.sysconfig:/etc/default/cowrie:z
     ports:
       - "2222:2222"
   centos:
@@ -15,6 +15,6 @@ services:
       dockerfile: Dockerfile-centos
     image: cowrie:centos
     volumes:
-      - ./devel.sysconfig:/etc/sysconfig/cowrie:z
+      - ./cowrie.sysconfig:/etc/sysconfig/cowrie:z
     ports:
       - "2222:2222"
