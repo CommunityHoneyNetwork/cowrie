@@ -8,7 +8,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-COWRIE_JSON='/etc/cowrie.json'
+COWRIE_JSON='/etc/cowrie/cowrie.json'
 
 register () {
   local deploy_key="${1:-}"
@@ -17,17 +17,28 @@ register () {
   local hostname="$(hostname -f)"
   local honeypot="cowrie"
 
+  # Create the cowrie dir if it's not there
+  if [[ ! -d /etc/${honeypot} ]]
+  then
+    mkdir -p /etc/${honeypot}
+  fi
+
   if [[ -z ${deploy_key} ]]
   then
     return 1
   fi
 
-  curl -s -X POST -H "Content-Type: application/json" -d "{
-    \"name\": \"${hostname}-${honeypot}\", 
-    \"hostname\": \"$hostname\", 
-    \"deploy_key\": \"$deploy_key\",
-    \"honeypot\": \"$honeypot\"
-  }" ${server}/api/sensor/ > ${json}
+  curl --request POST \
+       --header "Content-Type: application/json" \
+       --connect-timeout 15 \
+       --silent \
+       --data "{
+         \"name\": \"${hostname}-${honeypot}\",
+         \"hostname\": \"$hostname\",
+         \"deploy_key\": \"$deploy_key\",
+         \"honeypot\": \"$honeypot\"
+       }" ${server}/api/sensor/ > ${json}
+
 
 }
 
@@ -77,21 +88,21 @@ main () {
     echo "[CRIT] - No deploy key found"
     exit 1
   fi
-    
-  # If it doesn't exist or is empty
-  if [[ ! -f ${json}  ]] || [[ ! -s ${json} ]]
+
+  if ! jq -e ".uuid" /etc/cowrie/cowrie.json
   then
+    echo "Attempting to register wtih ${server}"
     register ${deploy_key} ${server} ${json}
 
     return=$?
-    
+
     if [[ $return -ne 0 ]]
     then
       echo "Failed to register with ${server} using key: ${deploy_key}"
       exit 1
     fi
   fi
-  
+
   local uuid=$(python -c "import json;obj=json.load(file('${json}'));print obj['uuid']")
 
   if [ -z "$uuid" ]
@@ -105,7 +116,7 @@ main () {
   local server=$(echo $server | sed 's#^http://##; s#^https://##; s#/.*$##; s/:.*$//')
   local uid=$(python -c "import json;obj=json.load(file('${json}'));print obj['identifier']")
   local secret=$(python -c "import json;obj=json.load(file('${json}'));print obj['secret']")
-  
+
   setup_cowrie_conf ${server} \
                     ${server_port} \
                     ${uid} ${secret} \
