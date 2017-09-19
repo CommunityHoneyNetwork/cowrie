@@ -23,4 +23,5 @@ RUN ansible-playbook /opt/${playbook}
 # Do this for containers only
 RUN sed -i 's/^DAEMONIZE=""/DAEMONIZE="-n"/' /opt/cowrie/bin/cowrie
 
-ENTRYPOINT ["/sbin/runsvdir", "-P", "/etc/service"]
+ENTRYPOINT ["/usr/bin/runsvdir", "-P", "/etc/service"]
+
