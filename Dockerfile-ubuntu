@@ -1,14 +1,16 @@
-FROM ubuntu:17.04
+FROM ubuntu:17.10
 
 LABEL maintainer Chris Collins <collins.christopher@gmail.com>
 LABEL name "cowrie"
-LABEL version "0.1"
+LABEL version "0.2"
 LABEL release "1"
 LABEL summary "Cowrie HoneyPot container"
 LABEL description "Cowrie is a medium interaction SSH and Telnet honeypot designed to log brute force attacks and the shell interaction performed by the attacker."
 LABEL authoritative-source-url "https://github.com/CommunityHoneyNetwork/communityhoneynetwork"
 LABEL changelog-url "https://github.com/CommunityHoneyNetwork/communityhoneynetwork/commits/master"
 
+# Set DOCKER var - used by Cowrie init to determine logging
+ENV DOCKER "yes"
 ENV playbook "cowrie.yml"
 
 RUN apt-get update \
@@ -18,4 +20,8 @@ RUN echo "localhost ansible_connection=local" >> /etc/ansible/hosts
 ADD . /opt/
 RUN ansible-playbook /opt/${playbook}
 
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# Do this for containers only
+RUN sed -i 's/^DAEMONIZE=""/DAEMONIZE="-n"/' /opt/cowrie/bin/cowrie
+
+ENTRYPOINT ["/usr/bin/runsvdir", "-P", "/etc/service"]
+

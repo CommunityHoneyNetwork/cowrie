@@ -2,47 +2,80 @@
   - hosts: all
 
     tasks:
-      - name: print os info
+      - name: Cowrie |Gather | print os info
         debug:
           msg: "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}"
 
-      - name: gather os info
+      - name: Cowrie |Gather | os info
         include_vars: "{{ item }}"
         with_first_found:
           - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
           - "{{ ansible_distribution }}.yml"
         tags: vars
-      
-      - name: install dependency packages
+
+      - name: Cowrie |Gather | default info
+        include_vars:
+          file: default.yml
+        tags: vars
+
+      - name: Cowrie |install non-specific packages
         package:
           name: "{{ item }}"
         with_items: "{{ pkgs }}"
 
-      - name: add users group
+      - name: Cowrie |install os-specific packages
+        package:
+          name: "{{ item }}"
+        with_items: "{{ pkgs_osspec }}"
+
+      - name: Cowrie |add users group
         group:
           name: users
 
-      - name: create cowrie user
+      - name: Cowrie |create cowrie user
         user:
           name: cowrie
           shell: /bin/bash
           group: users
 
-      - name: clone cowrie source
+      - name: Cowrie |clone cowrie source
         git:
-          repo: http://github.com/micheloosterhof/cowrie
+          repo: "{{ cowrie_repo }}"
+          version: "{{ cowrie_version }}"
           dest: /opt/cowrie
-          depth: 1
-        
-      - name: install cowrie
+
+      - name: Cowrie |install cowrie
         pip:
           requirements: /opt/cowrie/requirements.txt
           virtualenv: /opt/cowrie/cowrie-env
 
-      - name: check install
-        shell: /opt/cowrie/bin/cowrie status
+      - name: Cowrie |set file perms
+        file:
+          path: "{{ cowrie_dir }}"
+          owner: "{{ cowrie_user }}"
+          group: root
+          recurse: yes
 
-      - name: add supervisor config
+      - name: Cowrie | copy cowrie sysconfig file
         copy:
-          src: cowrie.conf
-          dest: "{{ supervisor_confdir }}/cowrie.conf"
+          dest: "{{ sysconfig_dir }}/cowrie"
+          src: cowrie.sysconfig
+          mode: 0644
+
+      - name: Cowrie | install Runit for CentOS hosts
+        yum:
+          name: "{{ runit_rpm_src }}"
+          state: present
+        when: ansible_distribution|lower == 'centos'
+
+      - name: Cowrie | create runit directories
+        file:
+          state: directory
+          path: "{{ runit_service_dir }}"
+          mode: 0755
+
+      - name: Cowrie | create cowrie runit run file
+        template:
+          src: cowrie.run.j2
+          dest: "{{ runit_service_dir }}/run"
+          mode: 0755
