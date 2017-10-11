@@ -44,6 +44,23 @@
           version: "{{ cowrie_version }}"
           dest: /opt/cowrie
 
+      - name: Cowrie | update pip
+        pip:
+          name: pip
+          virtualenv: /opt/cowrie/cowrie-env
+          state: latest
+        tags:
+          - skip_ansible_lint
+
+      - name: Cowrie | update setuptools
+        pip:
+          name: setuptools
+          virtualenv: /opt/cowrie/cowrie-env
+          state: latest
+        tags:
+          - skip_ansible_lint
+
+
       - name: Cowrie |install cowrie
         pip:
           requirements: /opt/cowrie/requirements.txt
