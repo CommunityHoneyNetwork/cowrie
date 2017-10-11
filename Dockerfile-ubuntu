@@ -14,7 +14,7 @@ ENV DOCKER "yes"
 ENV playbook "cowrie.yml"
 
 RUN apt-get update \
-      && apt-get install -y ansible
+      && apt-get install -y ansible python-apt
 
 RUN echo "localhost ansible_connection=local" >> /etc/ansible/hosts
 ADD . /opt/
