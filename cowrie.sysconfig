@@ -5,8 +5,11 @@
 
 DEBUG=false
 
+# CHN Server api to register to
+CHN_SERVER="http://chnserver"
+
 # Server to stream data to
-FEEDS_SERVER="http://localhost"
+FEEDS_SERVER="localhost"
 FEEDS_SERVER_PORT=10000
 
 # Deploy key from the FEEDS_SERVER administrator
