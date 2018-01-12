@@ -1,2 +1,5 @@
 buildah.sh
 docker.sh
+devel.sysconfig
+cowrie/cowrie.json
+docker-compose-devel.yml

@@ -2,3 +2,5 @@ buildah.sh
 docker.sh
 .gitlab-ci.yml
 .gitignore
+cowrie/
+devel.sysconfig
