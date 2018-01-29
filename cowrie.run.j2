@@ -37,14 +37,17 @@ setup_cowrie_conf () {
   local uid=${3:-}
   local secret=${4:-}
   local ssh_port=${5:-2222}
-  local debug=${6:-false}
+  local telnet_port=${6:-2223}
+  local debug=${7:-false}
 
   pushd /opt/cowrie
   cp cowrie.cfg.dist cowrie.cfg
 
   sed -i "s/hostname = svr04/hostname = server/g" cowrie.cfg
-  sed -i "s/#listen_port = 2222/listen_port = ${ssh_port}/g" cowrie.cfg
-  sed -i "s/ssh_version_string = SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2/ssh_version_string = SSH-2.0-OpenSSH_6.7p1 Ubuntu-5ubuntu1.3/g" cowrie.cfg
+  sed -i "s/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:${ssh_port}:interface=0.0.0.0/g" cowrie.cfg
+  sed -i "s/listen_endpoints = tcp:2223:interface=0.0.0.0/listen_endpoints = tcp:${telnet_port}:interface=0.0.0.0/g" cowrie.cfg
+  perl -p -000 -i -e  "s/# Enable Telnet support, disabled by default\s+enabled = false/# Enable Telnet support, disabled by default\nenabled = true/g" cowrie.cfg
+  sed -i "s/version = SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2/version = SSH-2.0-OpenSSH_6.7p1 Ubuntu-5ubuntu1.3/g" cowrie.cfg
   sed -i "s/#\[output_hpfeeds\]/[output_hpfeeds]/g" cowrie.cfg
   sed -i "s/#server = hpfeeds.mysite.org/server = ${server}/g" cowrie.cfg
   sed -i "s/#port = 10000/port = ${server_port}/g" cowrie.cfg
@@ -70,6 +73,7 @@ main () {
   local feeds_server_port=${FEEDS_SERVER_PORT:-10000}
   local json=${COWRIE_JSON:-cowrie.json}
   local ssh_port=${SSH_LISTEN_PORT:-2222}
+  local telnet_port=${TELNET_LISTEN_PORT:-2223}
 
   local debug=${DEBUG:-false}
 
@@ -111,6 +115,7 @@ main () {
                     ${feeds_server_port} \
                     ${uid} ${secret} \
                     ${ssh_port} \
+                    ${telnet_port} \
                     ${debug}
 
   exec su - cowrie -c "/opt/cowrie/bin/cowrie start"
