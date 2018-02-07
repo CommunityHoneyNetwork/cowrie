@@ -12,50 +12,42 @@ COWRIE_JSON='/etc/cowrie/cowrie.json'
 
 register () {
   local deploy_key="${1:-}"
-  local server="${2:-localhost}"
+  local chnserver="${2:-localhost}"
   local json="${3:-cowrie}"
   local hostname="$(hostname -f)"
   local honeypot="cowrie"
-
-  # Create the cowrie dir if it's not there
-  if [[ ! -d /etc/${honeypot} ]]
-  then
-    mkdir -p /etc/${honeypot}
-  fi
 
   if [[ -z ${deploy_key} ]]
   then
     return 1
   fi
 
-  curl --request POST \
-       --header "Content-Type: application/json" \
-       --connect-timeout 15 \
-       --silent \
-       --data "{
-         \"name\": \"${hostname}-${honeypot}\",
-         \"hostname\": \"$hostname\",
-         \"deploy_key\": \"$deploy_key\",
-         \"honeypot\": \"$honeypot\"
-       }" ${server}/api/sensor/ > ${json}
-
+  curl -s -X POST -H "Content-Type: application/json" -d "{
+    \"name\": \"${hostname}-${honeypot}\",
+    \"hostname\": \"$hostname\",
+    \"deploy_key\": \"$deploy_key\",
+    \"honeypot\": \"$honeypot\"
+  }" ${chnserver}/api/sensor/ > ${json}
 
 }
 
 setup_cowrie_conf () {
-  local sever=${1:-}
-  local sever_port=${2:-}
+  local server=${1:-}
+  local server_port=${2:-}
   local uid=${3:-}
   local secret=${4:-}
   local ssh_port=${5:-2222}
-  local debug=${6:-false}
+  local telnet_port=${6:-2223}
+  local debug=${7:-false}
 
   pushd /opt/cowrie
   cp cowrie.cfg.dist cowrie.cfg
 
   sed -i "s/hostname = svr04/hostname = server/g" cowrie.cfg
-  sed -i "s/#listen_port = 2222/listen_port = ${ssh_port}/g" cowrie.cfg
-  sed -i "s/ssh_version_string = SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2/ssh_version_string = SSH-2.0-OpenSSH_6.7p1 Ubuntu-5ubuntu1.3/g" cowrie.cfg
+  sed -i "s/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:${ssh_port}:interface=0.0.0.0/g" cowrie.cfg
+  sed -i "s/listen_endpoints = tcp:2223:interface=0.0.0.0/listen_endpoints = tcp:${telnet_port}:interface=0.0.0.0/g" cowrie.cfg
+  perl -p -000 -i -e  "s/# Enable Telnet support, disabled by default\s+enabled = false/# Enable Telnet support, disabled by default\nenabled = true/g" cowrie.cfg
+  sed -i "s/version = SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2/version = SSH-2.0-OpenSSH_6.7p1 Ubuntu-5ubuntu1.3/g" cowrie.cfg
   sed -i "s/#\[output_hpfeeds\]/[output_hpfeeds]/g" cowrie.cfg
   sed -i "s/#server = hpfeeds.mysite.org/server = ${server}/g" cowrie.cfg
   sed -i "s/#port = 10000/port = ${server_port}/g" cowrie.cfg
@@ -76,10 +68,12 @@ main () {
   fi
 
   local deploy_key=${DEPLOY_KEY:-}
-  local server=${FEEDS_SERVER:-localhost}
-  local server_port=${FEEDS_SERVER_PORT:-10000}
+  local chn_server=${CHN_SERVER}
+  local feeds_server=${FEEDS_SERVER:-localhost}
+  local feeds_server_port=${FEEDS_SERVER_PORT:-10000}
   local json=${COWRIE_JSON:-cowrie.json}
   local ssh_port=${SSH_LISTEN_PORT:-2222}
+  local telnet_port=${TELNET_LISTEN_PORT:-2223}
 
   local debug=${DEBUG:-false}
 
@@ -89,16 +83,16 @@ main () {
     exit 1
   fi
 
-  if ! jq -e ".uuid" /etc/cowrie/cowrie.json
+  # If it doesn't exist or is empty
+  if [[ ! -f ${json}  ]] || [[ ! -s ${json} ]]
   then
-    echo "Attempting to register wtih ${server}"
-    register ${deploy_key} ${server} ${json}
+    register ${deploy_key} ${chn_server} ${json}
 
     return=$?
 
     if [[ $return -ne 0 ]]
     then
-      echo "Failed to register with ${server} using key: ${deploy_key}"
+      echo "Failed to register with ${chn_server} using key: ${deploy_key}"
       exit 1
     fi
   fi
@@ -113,14 +107,15 @@ main () {
     echo "Created sensor: " $uuid
   fi
 
-  local server=$(echo $server | sed 's#^http://##; s#^https://##; s#/.*$##; s/:.*$//')
+  local feeds_server=$(echo $feeds_server | sed 's#^http://##; s#^https://##; s#/.*$##; s/:.*$//')
   local uid=$(python -c "import json;obj=json.load(file('${json}'));print obj['identifier']")
   local secret=$(python -c "import json;obj=json.load(file('${json}'));print obj['secret']")
 
-  setup_cowrie_conf ${server} \
-                    ${server_port} \
+  setup_cowrie_conf ${feeds_server} \
+                    ${feeds_server_port} \
                     ${uid} ${secret} \
                     ${ssh_port} \
+                    ${telnet_port} \
                     ${debug}
 
   exec su - cowrie -c "/opt/cowrie/bin/cowrie start"
