@@ -22,13 +22,17 @@ register () {
     return 1
   fi
 
-  curl -s -X POST -H "Content-Type: application/json" -d "{
+  curl --verbose \
+       --silent \
+       --request POST \
+       --header "Content-Type: application/json" \
+       --output ${json} \
+       --data "{
     \"name\": \"${hostname}-${honeypot}\",
     \"hostname\": \"$hostname\",
     \"deploy_key\": \"$deploy_key\",
     \"honeypot\": \"$honeypot\"
-  }" ${chnserver}/api/sensor/ > ${json}
-
+  }" ${chnserver}/api/sensor/
 }
 
 setup_cowrie_conf () {
