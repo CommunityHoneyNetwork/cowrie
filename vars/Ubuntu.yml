@@ -10,5 +10,6 @@
     - python-pip
     - authbind
     - runit
+    - curl
 
   sysconfig_dir: /etc/default
