@@ -44,11 +44,6 @@
           version: "{{ cowrie_version }}"
           dest: "{{ cowrie_dir }}"
 
-      - name: Cowrie | copy patched requirements.txt file
-        copy:
-          src: "requirements.txt"
-          dest: "{{ cowrie_dir }}/requirements.txt"
-
       - name: Cowrie | update pip
         pip:
           name: pip
