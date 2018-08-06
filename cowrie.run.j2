@@ -15,6 +15,7 @@ register () {
   local chnserver="${2:-localhost}"
   local json="${3:-cowrie}"
   local hostname="$(hostname -f)"
+  local ip="${4:-}"
   local honeypot="cowrie"
 
   if [[ -z ${deploy_key} ]]
@@ -30,6 +31,7 @@ register () {
        --data "{
     \"name\": \"${hostname}-${honeypot}\",
     \"hostname\": \"$hostname\",
+    \"ip\": \"${ip}\",
     \"deploy_key\": \"$deploy_key\",
     \"honeypot\": \"$honeypot\"
   }" ${chnserver}/api/sensor/
@@ -76,6 +78,7 @@ main () {
   local feeds_server=${FEEDS_SERVER:-localhost}
   local feeds_server_port=${FEEDS_SERVER_PORT:-10000}
   local json=${COWRIE_JSON:-cowrie.json}
+  local ip=${IP_ADDRESS:-}
   local ssh_port=${SSH_LISTEN_PORT:-2222}
   local telnet_port=${TELNET_LISTEN_PORT:-2223}
 
@@ -90,7 +93,7 @@ main () {
   # If it doesn't exist or is empty
   if [[ ! -f ${json}  ]] || [[ ! -s ${json} ]]
   then
-    register ${deploy_key} ${chn_server} ${json}
+    register ${deploy_key} ${chn_server} ${json} ${ip}
 
     return=$?
 
