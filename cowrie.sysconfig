@@ -35,3 +35,6 @@ SSH_LISTEN_PORT=2222
 # or left at 2223 and have the port mapped if deployed
 # in a container
 TELNET_LISTEN_PORT=2223
+
+
+TAGS=cloud,aws
