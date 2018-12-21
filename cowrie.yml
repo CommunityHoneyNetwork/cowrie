@@ -66,6 +66,11 @@
           requirements: /opt/cowrie/requirements.txt
           virtualenv: /opt/cowrie/cowrie-env
 
+      - name: Cowrie | copy output plugin
+        copy:
+          src: "/opt/output/hpfeeds.py"
+          dest: "{{ cowrie_dir }}/cowrie/output/hpfeeds.py"
+
       - name: Cowrie |set file perms
         file:
           path: "{{ cowrie_dir }}"
