@@ -255,8 +255,12 @@ class Output(cowrie.core.output.Output):
 
     def __init__(self):
         log.msg("Early version of hpfeeds-output, untested!")
-        tag_str = CONFIG.get('output_hpfeeds', 'tags')
-        self.tags = tag_str.split(",")
+
+        try:
+            self.tags = [tag.strip() for tag in CONFIG.get('output_hpfeeds', 'tags').split(',')]
+        except Exception as e:
+            self.tags = []
+
         cowrie.core.output.Output.__init__(self)
 
     def start(self):
