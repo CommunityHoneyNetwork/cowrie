@@ -126,7 +126,7 @@ main () {
                     ${ssh_port} \
                     ${telnet_port} \
                     ${debug} \
-                    ${tags}
+                    "${tags}"
 
   exec su - cowrie -c "/opt/cowrie/bin/cowrie start"
 }
