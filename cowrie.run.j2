@@ -47,7 +47,7 @@ setup_cowrie_conf () {
   local debug=${7:-false}
   local tags=${8:-}
 
-  pushd /opt/cowrie
+  pushd /opt/cowrie/etc
   cp cowrie.cfg.dist cowrie.cfg
 
   sed -i "s/hostname = svr04/hostname = server/g" cowrie.cfg
