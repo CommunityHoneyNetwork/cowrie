@@ -69,7 +69,7 @@
       - name: Cowrie | copy output plugin
         copy:
           src: "/opt/output/hpfeeds.py"
-          dest: "{{ cowrie_dir }}/cowrie/output/hpfeeds.py"
+          dest: "{{ cowrie_dir }}/src/cowrie/output/hpfeeds.py"
 
       - name: Cowrie |set file perms
         file:
