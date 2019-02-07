@@ -52,15 +52,19 @@ setup_cowrie_conf () {
   if [[ ${personality} != "default" ]]
   then
     if [[ -f /opt/personalities/${personality}/cowrie.cfg  ]]
+    then
       cp /opt/personalities/${personality}/cowrie.cfg /opt/cowrie/etc/cowrie.cfg
     fi
     if [[ -f /opt/personalities/${personality}/fs.pickle  ]]
+    then
       cp /opt/personalities/${personality}/fs.pickle /opt/cowrie/share/cowrie/fs.pickle
     fi
     if [[ -f /opt/personalities/${personality}/userdb.txt  ]]
+    then
       cp /opt/personalities/${personality}/userdb.txt /opt/cowrie/etc/userdb.txt
     fi
     if [[ -d /opt/personalities/${personality}/txtcmds  ]]
+    then
       cp -R /opt/personalities/${personality}/txtcmds /opt/cowrie/share/cowrie/
     fi
   fi
