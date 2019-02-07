@@ -45,22 +45,36 @@ setup_cowrie_conf () {
   local ssh_port=${5:-2222}
   local telnet_port=${6:-2223}
   local debug=${7:-false}
-  local tags=${8:-}
+  local personality=${8:-}
+  local tags=${9:-}
 
   pushd /opt/cowrie/etc
-  cp cowrie.cfg.dist cowrie.cfg
+  if [[ ${personality} != "default" ]]
+  then
+    if [[ -f /opt/personalities/${personality}/cowrie.cfg  ]]
+      cp /opt/personalities/${personality}/cowrie.cfg /opt/cowrie/etc/cowrie.cfg
+    fi
+    if [[ -f /opt/personalities/${personality}/fs.pickle  ]]
+      cp /opt/personalities/${personality}/fs.pickle /opt/cowrie/share/cowrie/fs.pickle
+    fi
+    if [[ -f /opt/personalities/${personality}/userdb.txt  ]]
+      cp /opt/personalities/${personality}/userdb.txt /opt/cowrie/etc/userdb.txt
+    fi
+    if [[ -d /opt/personalities/${personality}/txtcmds  ]]
+      cp -R /opt/personalities/${personality}/txtcmds /opt/cowrie/share/cowrie/
+    fi
+  fi
 
-  sed -i "s/hostname = svr04/hostname = server/g" cowrie.cfg
-  sed -i "s/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:${ssh_port}:interface=0.0.0.0/g" cowrie.cfg
-  sed -i "s/listen_endpoints = tcp:2223:interface=0.0.0.0/listen_endpoints = tcp:${telnet_port}:interface=0.0.0.0/g" cowrie.cfg
-  perl -p -000 -i -e  "s/# Enable Telnet support, disabled by default\s+enabled = false/# Enable Telnet support, disabled by default\nenabled = true/g" cowrie.cfg
-  sed -i "s/version = SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2/version = SSH-2.0-OpenSSH_6.7p1 Ubuntu-5ubuntu1.3/g" cowrie.cfg
-  perl -p -000 -i -e "s/#\[output_hpfeeds\]\s+#enabled = false/[output_hpfeeds]\nenabled = true/g" cowrie.cfg
-  sed -i "s/#server = hpfeeds.mysite.org/server = ${server}/g" cowrie.cfg
-  perl -p -000 -i -e "s/#port = 10000/port = ${server_port}/g" cowrie.cfg
-  sed -i "s/#identifier = abc123/identifier = ${uid}/g" cowrie.cfg
-  sed -i "s/#secret = secret/secret = ${secret}\ntags = ${tags}/g" cowrie.cfg
-  sed -i "s/#debug=false/debug=${debug}/g" cowrie.cfg
+  sed -i "s/hostname = svr04/hostname = server/g" cowrie.cfg.dist
+  sed -i "s/listen_endpoints = tcp:2222:interface=0.0.0.0/listen_endpoints = tcp:${ssh_port}:interface=0.0.0.0/g" cowrie.cfg.dist
+  sed -i "s/listen_endpoints = tcp:2223:interface=0.0.0.0/listen_endpoints = tcp:${telnet_port}:interface=0.0.0.0/g" cowrie.cfg.dist
+  perl -p -000 -i -e  "s/# Enable Telnet support, disabled by default\s+enabled = false/# Enable Telnet support, disabled by default\nenabled = true/g" cowrie.cfg.dist
+  perl -p -000 -i -e "s/#\[output_hpfeeds\]\s+#enabled = false/[output_hpfeeds]\nenabled = true/g" cowrie.cfg.dist
+  sed -i "s/#server = hpfeeds.mysite.org/server = ${server}/g" cowrie.cfg.dist
+  perl -p -000 -i -e "s/#port = 10000/port = ${server_port}/g" cowrie.cfg.dist
+  sed -i "s/#identifier = abc123/identifier = ${uid}/g" cowrie.cfg.dist
+  sed -i "s/#secret = secret/secret = ${secret}\ntags = ${tags}/g" cowrie.cfg.dist
+  sed -i "s/#debug=false/debug=${debug}/g" cowrie.cfg.dist
 
   popd
 
@@ -82,6 +96,7 @@ main () {
   local ip=${IP_ADDRESS:-}
   local ssh_port=${SSH_LISTEN_PORT:-2222}
   local telnet_port=${TELNET_LISTEN_PORT:-2223}
+  local personality=${PERSONALITY:-default}
   local tags=${TAGS:-}
 
   local debug=${DEBUG:-false}
@@ -126,6 +141,7 @@ main () {
                     ${ssh_port} \
                     ${telnet_port} \
                     ${debug} \
+                    ${personality} \
                     "${tags}"
 
   exec su - cowrie -c "/opt/cowrie/bin/cowrie start"
