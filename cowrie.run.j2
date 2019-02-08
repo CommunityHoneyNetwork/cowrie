@@ -48,8 +48,11 @@ setup_cowrie_conf () {
   local personality=${8:-}
   local tags=${9:-}
 
+  # Set up some defaults we can overwrite later
+  cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt
+
   pushd /opt/cowrie/etc
-  if [[ ${personality} != "default" ]]
+  if [[ ${personality} != "default" ]] && [[ -d /opt/personalities/${personality} ]]
   then
     if [[ -f /opt/personalities/${personality}/cowrie.cfg  ]]
     then
