@@ -296,7 +296,19 @@ class Output(cowrie.core.output.Output):
                 'version': None,
                 'ttylog': None,
                 'hashes': set(),
-                'protocol': entry['protocol']
+                'protocol': entry['protocol'],
+                'arch': None,
+                'clientHeight': None,
+                'clientWidth': None,
+                'fingerprint': None,
+                'kexHassh': None,
+                'kexHasshAlgorithms': None,
+                'kexKexAlgorithms': None,
+                'kexKeyAlgorithms': None,
+                'kexEncCS': None,
+                'kexMacCS': None,
+                'kexCompCS': None,
+                'kexLangCS': None
             }
 
         elif entry["eventid"] == 'cowrie.login.success':
@@ -326,6 +338,37 @@ class Output(cowrie.core.output.Output):
         elif entry["eventid"] == 'cowrie.client.version':
             v = entry['version']
             self.meta[session]['version'] = v
+
+        elif entry["eventid"] == 'cowrie.session.params':
+            arch = entry['arch']
+            self.meta[session]['arch'] = arch
+
+        elif entry['eventid'] == "cowrie.client.size":
+            w, h = entry['width'], entry['height']
+            self.meta[session]['clientWidth'] = w
+            self.meta[session]['clientHeight'] = h
+
+        elif entry['eventid'] == "cowrie.client.fingerprint":
+            fingerprint = entry['fingerprint']
+            self.meta[session]['fingerprint'] = fingerprint
+
+        elif entry['eventid'] == "cowrie.client.kex":
+            hassh = entry['hassh']
+            hassh_algorithms = entry['hasshAlgorithms']
+            kex_algs = entry['kexAlgs']
+            key_algs = entry['keyAlgs']
+            enc_cs = entry['encCS']
+            mac_cs = entry['macCS']
+            comp_cs = entry['compCS']
+            lang_cs = entry['langCS']
+            self.meta[session]['kexHassh'] = hassh
+            self.meta[session]['kexHasshAlgorithms'] = hassh_algorithms
+            self.meta[session]['kexKexAlgorithms'] = kex_algs
+            self.meta[session]['kexKeyAlgorithms'] = key_algs
+            self.meta[session]['kexEncCS'] = enc_cs
+            self.meta[session]['kexMacCS'] = mac_cs
+            self.meta[session]['kexCompCS'] = comp_cs
+            self.meta[session]['kexLangCS'] = lang_cs
 
         elif entry["eventid"] == 'cowrie.log.closed':
             # entry["ttylog"]
