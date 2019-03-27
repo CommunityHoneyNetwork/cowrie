@@ -80,7 +80,7 @@ setup_cowrie_conf () {
   sed -i "s/#server = hpfeeds.mysite.org/server = ${server}/g" cowrie.cfg.dist
   perl -p -000 -i -e "s/#port = 10000/port = ${server_port}/g" cowrie.cfg.dist
   sed -i "s/#identifier = abc123/identifier = ${uid}/g" cowrie.cfg.dist
-  sed -i "s/#secret = secret/secret = ${secret}\ntags = ${tags}/g" cowrie.cfg.dist
+  sed -i "s|#secret = secret|secret = ${secret}\ntags = ${tags}|g" cowrie.cfg.dist
   sed -i "s/#debug=false/debug=${debug}/g" cowrie.cfg.dist
 
   popd
