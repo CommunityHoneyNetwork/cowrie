@@ -4,6 +4,9 @@
     - jq
     - python-virtualenv
 
+  cowrie_pip_pkgs:
+    - bcrypt
+
   cowrie_repo: http://github.com/cowrie/cowrie
 
   cowrie_version: 1.5.2

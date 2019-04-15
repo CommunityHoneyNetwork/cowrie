@@ -60,6 +60,12 @@
         tags:
           - skip_ansible_lint
 
+      - name: Cowrie | install pip deps
+        pip:
+          name: "{{ item }}"
+          state: present
+          virtualenv: /opt/cowrie/cowrie-env
+        with_items: "{{ cowrie_pip_pkgs }}"
 
       - name: Cowrie |install cowrie
         pip:
