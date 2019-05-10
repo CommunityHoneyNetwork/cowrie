@@ -82,7 +82,16 @@ setup_cowrie_conf () {
   sed -i "s/#identifier = abc123/identifier = ${uid}/g" cowrie.cfg.dist
   sed -i "s|#secret = secret|secret = ${secret}\ntags = ${tags}|g" cowrie.cfg.dist
   sed -i "s/#debug=false/debug=${debug}/g" cowrie.cfg.dist
-
+  
+  # Allow cowrie user to use ports 1024 and below
+  sed -i "s/AUTHBIND_ENABLED=no/AUTHBIND_ENABLED=yes/g" /opt/cowrie/bin/cowrie
+  for i in {1..1024}
+  do
+    touch /etc/authbind/byport/$i
+    chown cowrie /etc/authbind/byport/$i
+    chmod 755 /etc/authbind/byport/$i
+  done
+  
   popd
 
 }
