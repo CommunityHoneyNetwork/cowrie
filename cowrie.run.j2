@@ -160,7 +160,7 @@ main () {
                     ${personality} \
                     "${tags}"
 
-  exec su - cowrie -c "/opt/cowrie/bin/cowrie start"
+  exec su - cowrie -c "DOCKER=${DOCKER} /opt/cowrie/bin/cowrie start"
 }
 
 main "$@"
