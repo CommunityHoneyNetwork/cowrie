@@ -257,7 +257,7 @@ class Output(cowrie.core.output.Output):
         log.msg("Early version of hpfeeds-output, untested!")
 
         try:
-            self.tags = [tag.strip() for tag in CowrieConfig.get('output_hpfeeds', 'tags').split(',')]
+            self.tags = [tag.strip() for tag in CowrieConfig().get('output_hpfeeds', 'tags').split(',')]
         except Exception as e:
             self.tags = []
 
@@ -265,11 +265,11 @@ class Output(cowrie.core.output.Output):
 
     def start(self):
 
-        server = CowrieConfig.get('output_hpfeeds', 'server')
-        port = CowrieConfig.getint('output_hpfeeds', 'port')
-        ident = CowrieConfig.get('output_hpfeeds', 'identifier')
-        secret = CowrieConfig.get('output_hpfeeds', 'secret')
-        debug = CowrieConfig.getboolean('output_hpfeeds', 'debug')
+        server = CowrieConfig().get('output_hpfeeds', 'server')
+        port = CowrieConfig().getint('output_hpfeeds', 'port')
+        ident = CowrieConfig().get('output_hpfeeds', 'identifier')
+        secret = CowrieConfig().get('output_hpfeeds', 'secret')
+        debug = CowrieConfig().getboolean('output_hpfeeds', 'debug')
         self.client = hpclient(server, port, ident, secret, debug)
         self.meta = {}
 
