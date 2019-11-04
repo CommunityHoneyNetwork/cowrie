@@ -9,7 +9,7 @@
 
   cowrie_repo: http://github.com/cowrie/cowrie
 
-  cowrie_version: v2.0.0
+  cowrie_version: v2.0.1
 
   cowrie_dir: /opt/cowrie
   cowrie_user: cowrie
