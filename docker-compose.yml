@@ -4,7 +4,7 @@ services:
     build:
       context: .
     volumes:
-      - /srv/cowrie:/etc/cowrie
+      - ./cowrie:/etc/cowrie
     ports:
       - "2222:2222"
     environment:

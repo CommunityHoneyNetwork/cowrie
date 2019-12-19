@@ -32,17 +32,12 @@ main () {
     mkdir /data/logs
     mkdir -p /data/state/{tty,downloads}
 
-    # Register this host with CHN
-    if ! cat "${COWRIE_JSON}" | jq .honeypot; then
-        echo "${COWRIE_JSON} is not configured, registering"
-        chn-register.py \
-            -p cowrie \
-            -d "${DEPLOY_KEY}" \
-            -u "${CHN_SERVER}" -k \
-            -o "${COWRIE_JSON}"
-    else
-        echo "${COWRIE_JSON} already exists, skipping registration"
-    fi
+    # Register this host with CHN if needed
+    chn-register.py \
+        -p cowrie \
+        -d "${DEPLOY_KEY}" \
+        -u "http://${CHN_SERVER}" -k \
+        -o "${COWRIE_JSON}"
 
     local uid="$(cat ${COWRIE_JSON} | jq -r .identifier)"
     local secret="$(cat ${COWRIE_JSON} | jq -r .secret)"

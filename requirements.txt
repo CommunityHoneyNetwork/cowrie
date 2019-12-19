@@ -1,2 +1,2 @@
 containedenv>=0.0.3
-chnutils
+chnutils>=0.0.7
