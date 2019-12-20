@@ -1,10 +1,18 @@
 version: '2'
 services:
-  ubuntu:
+  cowrie:
     build:
       context: .
-    image: cowrie:ubuntu
     volumes:
-      - ./cowrie.sysconfig:/etc/default/cowrie:z
+      - ./cowrie:/etc/cowrie
     ports:
       - "2222:2222"
+    environment:
+      DEBUG: "true"
+      AUTHBIND_ENABLED: ""
+      IP_ADDRESS: 10.0.0.1
+      CHN_SERVER: "http://chnserver"
+      FEEDS_SERVER: "localhost"
+      DEPLOY_KEY: "FOO"
+      COWRIE_JSON: "/etc/cowrie/cowrie.json"
+      TAGS: ""
