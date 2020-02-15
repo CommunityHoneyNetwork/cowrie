@@ -1,6 +1,6 @@
 FROM python:3.7
 
-LABEL maintainer Team Stingar <team.stingar@duke.edu>
+LABEL maintainer "Team Stingar <team.stingar@duke.edu>"
 LABEL name "cowrie"
 LABEL version "0.3"
 LABEL release "1"
@@ -13,23 +13,18 @@ LABEL changelog-url "https://github.com/CommunityHoneyNetwork/communityhoneynetw
 ENV DOCKER "yes"
 ENV COWRIE_VERS "v2.0.2"
 
-ENV DEPLOY_KEY "foo"
-
 RUN mkdir /code
-ADD output /code/output
 ADD requirements.txt /code/
 
 RUN useradd cowrie
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev \
-       git authbind jq libsnappy-dev && \
+    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev git authbind jq libsnappy-dev && \
     pip3 install -r /code/requirements.txt && \
     cd /opt && \
     git clone --branch "${COWRIE_VERS}" http://github.com/cowrie/cowrie && \
     pip3 install -r /opt/cowrie/requirements.txt && \
     pip3 install -r /opt/cowrie/requirements-output.txt && \
-    cp /code/output/hpfeeds.py /opt/cowrie/src/cowrie/output/hpfeeds.py && \
     cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt && \
     bash -c "touch /etc/authbind/byport/{1..1024}" && \
     chmod 755 /etc/authbind/byport/* && \
@@ -44,7 +39,8 @@ RUN apt-get update \
     apt-get remove -y git libssl-dev gcc python3-dev && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
-
+RUN sed -i -e 's/output_hpfeeds/output_hpfeeds3/g' /opt/cowrie/src/cowrie/output/hpfeeds3.py && \
+    rm /opt/cowrie/src/cowrie/output/hpfeeds.py
 ADD cowrie.reference.cfg /code/cowrie.reference.cfg
 ADD entrypoint.sh /code/
 
