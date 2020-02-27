@@ -2,7 +2,7 @@ FROM python:3.7
 
 LABEL maintainer Team Stingar <team.stingar@duke.edu>
 LABEL name "cowrie"
-LABEL version "0.3"
+LABEL version "1.9"
 LABEL release "1"
 LABEL summary "Cowrie HoneyPot container"
 LABEL description "Cowrie is a medium interaction SSH and Telnet honeypot designed to log brute force attacks and the shell interaction performed by the attacker."
