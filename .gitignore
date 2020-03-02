@@ -1,8 +1,4 @@
 *.swp
 docker-compose.override.yml
-buildah.sh
-docker.sh
-devel.sysconfig
 cowrie/cowrie.json
 docker-compose-devel.yml
-.pytest_cache/
