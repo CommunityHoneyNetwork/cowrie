@@ -2,3 +2,5 @@
 docker-compose.override.yml
 cowrie/cowrie.json
 docker-compose-devel.yml
+.pytest_cache/
+.development.env
