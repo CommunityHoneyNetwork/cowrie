@@ -75,6 +75,7 @@ container_scanning:
   tags:
     - container_scanning
   script:
+    - sudo ntpdate pool.ntp.org
     - env
     - sudo ntpdate pool.ntp.org
     - sudo docker pull ${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}
