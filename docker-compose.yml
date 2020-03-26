@@ -4,7 +4,7 @@ services:
     build:
       context: .
     volumes:
-      - ./cowrie:/etc/cowrie
+      - configs:/etc/cowrie
     ports:
       - "2222:2222"
     environment:
@@ -16,3 +16,5 @@ services:
       DEPLOY_KEY: "FOO"
       COWRIE_JSON: "/etc/cowrie/cowrie.json"
       TAGS: ""
+volumes:
+  configs:
