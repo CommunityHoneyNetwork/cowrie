@@ -35,6 +35,7 @@ RUN apt-get update \
     chgrp -R 0 /opt/cowrie && \
     chmod -R g=u /opt/cowrie && \
     chown -R cowrie /opt/cowrie && \
+    chown -R cowrie /etc/cowrie && \
     rm -rf /opt/cowrie/.git && \
     apt-get remove -y git libssl-dev gcc python3-dev && \
     apt-get autoremove -y && \
