@@ -28,7 +28,7 @@ RUN apt-get update \
     cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt && \
     bash -c "touch /etc/authbind/byport/{1..1024}" && \
     chmod 755 /etc/authbind/byport/* && \
-    mkdir /data/ && \
+    mkdir /data/ /etc/cowrie && \
     chgrp -R 0 /data && \
     chmod -R g=u /data && \
     chown -R cowrie /data && \
