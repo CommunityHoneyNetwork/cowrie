@@ -49,8 +49,8 @@ main () {
     export COWRIE_output_hpfeeds3__identifier="${uid}"
     export COWRIE_output_hpfeeds3__secret="${secret}"
 
-    export COWRIE_ssh__listen_endpoints="tcp:${SSH_LISTEN_PORT:-2222}:interface=0.0.0.0"
-    export COWRIE_telnet__listen_endpoints="tcp:${TELNET_LISTEN_PORT:-2223}:interface=0.0.0.0"
+    export COWRIE_ssh__listen_endpoints="tcp:${SSH_LISTEN_PORT:-2222}:interface=\:\:"
+    export COWRIE_telnet__listen_endpoints="tcp:${TELNET_LISTEN_PORT:-2223}:interface=\:\:"
 
     # Write out custom cowrie config
     containedenv-config-writer.py \
