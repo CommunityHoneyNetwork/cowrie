@@ -1,7 +1,7 @@
 ---
 stages:
   - test
-# - build
+  - build
 # - integration_testing
 # - deploy
 
