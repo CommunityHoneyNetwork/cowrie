@@ -12,7 +12,7 @@ variables:
   CI_APPLICATION_REPOSITORY: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG
   CI_APPLICATION_TAG: $CI_COMMIT_SHA
 
-pep8:
+.pep8:
   stage: test
   allow_failure: true
   image: ubuntu:20.04
@@ -39,7 +39,7 @@ pep8:
 
 ARM32 Build:
   stage: build
-  image: docker:latest
+  image: docker:19.03.5
   services:
     - docker:stable-dind
   variables:
