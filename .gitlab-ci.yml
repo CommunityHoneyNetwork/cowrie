@@ -15,15 +15,16 @@ variables:
 pep8:
   stage: test
   allow_failure: true
+  image: ubuntu:20.04
   tags:
     - linting
-
+    - "oit-shared"
   before_script:
+    - apt-get update
+    - apt-get -y install python3-flake8
     - flake8 --version
   script:
     - flake8 .
-  tags:
-    - "oit-shared"
 
 .build_container:
   stage: build
