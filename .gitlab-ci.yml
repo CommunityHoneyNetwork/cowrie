@@ -1,9 +1,9 @@
 ---
 stages:
   - test
-  - build
-  - integration_testing
-  - deploy
+# - build
+# - integration_testing
+# - deploy
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -22,8 +22,10 @@ pep8:
     - flake8 --version
   script:
     - flake8 .
+  tags:
+    - "oit-shared"
 
-build_container:
+.build_container:
   stage: build
   tags:
     - container_scanning
@@ -36,7 +38,7 @@ build_container:
     - sudo docker build --pull -t "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}" .
     - sudo docker push "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}"
 
-sast:
+.sast:
   image: docker:stable
   tags:
     - sast
@@ -66,7 +68,7 @@ sast:
     - sudo ntpdate pool.ntp.org
     - sudo py.test .
 
-container_scanning:
+.container_scanning:
   image: docker:stable
   stage: integration_testing
   allow_failure: true
@@ -96,7 +98,7 @@ container_scanning:
     reports:
       container_scanning: 'gl-container-scanning-report.json'
 
-deploy_dockerhub:
+.deploy_dockerhub:
   image: docker:stable
   stage: deploy
   tags:
