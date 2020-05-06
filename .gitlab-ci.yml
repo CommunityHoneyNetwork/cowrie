@@ -39,14 +39,14 @@ variables:
 
 ARM32 Build:
   stage: build
-  image: docker:19
+  image: jonoh/docker-buildx-qemu
   services:
-    - docker:19-dind
+    - docker:dind
   variables:
+    DOCKER_HOST: tcp://docker:2375/
     DOCKER_BUILD_KIT: 1
     DOCKER_CLI_EXPERIMENTAL: enabled
   script:
-    - env
     - docker --version
     - docker login -u "gitlab-ci-token" -p "${CI_BUILD_TOKEN}" ${CI_REGISTRY}
     - docker buildx create --name 'arm32' --platform linux/arm/v7
