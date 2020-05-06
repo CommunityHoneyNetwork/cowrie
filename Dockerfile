@@ -1,4 +1,5 @@
-FROM python:3.7
+ARG BASE_IMAGE="python"
+FROM ${BASE_IMAGE}:3.7
 
 LABEL maintainer "Team Stingar <team.stingar@duke.edu>"
 LABEL name "cowrie"
