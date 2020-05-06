@@ -39,9 +39,9 @@ variables:
 
 ARM32 Build:
   stage: build
-  image: docker:19.03.5
+  image: docker:19
   services:
-    - docker:stable-dind
+    - docker:19-dind
   variables:
     DOCKER_BUILD_KIT: 1
     DOCKER_CLI_EXPERIMENTAL: enabled
