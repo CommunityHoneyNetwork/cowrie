@@ -25,15 +25,32 @@ pep8:
   script:
     - flake8 .
 
-.build_container:
+64bit Build:
   stage: build
   image: docker:latest
   services:
     - docker:stable-dind
   script:
-    - sudo docker login -u "gitlab-ci-token" -p "${CI_BUILD_TOKEN}" ${CI_REGISTRY}
-    - sudo docker build --pull -t "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}" .
+    - docker login -u "gitlab-ci-token" -p "${CI_BUILD_TOKEN}" ${CI_REGISTRY}
+    - docker build --pull -t "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}" .
 #   - sudo docker push "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}"
+  tags:
+    - "oit-shared"
+
+ARM32 Build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:stable-dind
+  variables:
+    DOCKER_BUILD_KIT=1
+    DOCKER_CLI_EXPERIMENTAL=enabled
+  script:
+    - docker login -u "gitlab-ci-token" -p "${CI_BUILD_TOKEN}" ${CI_REGISTRY}
+    - docker buildx create --name 'arm32' --platform linux/arm/v7
+    - docker buildx use arm32
+    - docker buildx build --build-arg BASE_IMAGE=arm32v7/python --pull -t "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}-arm" .
+#   - sudo docker push "${CI_APPLICATION_REPOSITORY}:${CI_APPLICATION_TAG}-arm"
   tags:
     - "oit-shared"
 
