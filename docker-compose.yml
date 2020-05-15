@@ -16,5 +16,6 @@ services:
       DEPLOY_KEY: "FOO"
       COWRIE_JSON: "/etc/cowrie/cowrie.json"
       TAGS: ""
+      IPV6_ENABLE: "false"
 volumes:
   configs:

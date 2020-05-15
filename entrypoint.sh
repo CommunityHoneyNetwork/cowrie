@@ -21,7 +21,7 @@ main () {
     local ssh_port=${SSH_LISTEN_PORT:-2222}
     local telnet_port=${TELNET_LISTEN_PORT:-2223}
     local tags=${TAGS:-}
-
+    local ipv6=${IPV6_ENABLE:-"false"}
     if [[ -z ${DEPLOY_KEY} ]]
     then
       echo "[CRIT] - No deploy key found"
@@ -49,9 +49,14 @@ main () {
     export COWRIE_output_hpfeeds3__identifier="${uid}"
     export COWRIE_output_hpfeeds3__secret="${secret}"
 
-    export COWRIE_ssh__listen_endpoints="tcp:${SSH_LISTEN_PORT:-2222}:interface=\:\:"
-    export COWRIE_telnet__listen_endpoints="tcp:${TELNET_LISTEN_PORT:-2223}:interface=\:\:"
-
+    if [[ ${ipv6} == "true" ]]
+    then
+      export COWRIE_ssh__listen_endpoints="tcp:${SSH_LISTEN_PORT:-2222}:interface=\:\:"
+      export COWRIE_telnet__listen_endpoints="tcp:${TELNET_LISTEN_PORT:-2223}:interface=\:\:"
+    else
+      export COWRIE_ssh__listen_endpoints="tcp:${SSH_LISTEN_PORT:-2222}:interface=0.0.0.0"
+      export COWRIE_telnet__listen_endpoints="tcp:${TELNET_LISTEN_PORT:-2223}:interface=0.0.0.0"
+    fi
     # Write out custom cowrie config
     containedenv-config-writer.py \
       -p COWRIE_ \
