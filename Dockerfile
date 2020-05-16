@@ -11,7 +11,7 @@ LABEL changelog-url "https://github.com/CommunityHoneyNetwork/communityhoneynetw
 
 # Set DOCKER var - used by Cowrie init to determine logging
 ENV DOCKER "yes"
-ENV COWRIE_VERS "v2.0.2"
+ENV COWRIE_VERS "v2.1.0"
 
 RUN mkdir /code
 ADD requirements.txt /code/
@@ -39,8 +39,7 @@ RUN apt-get update \
     rm -rf /opt/cowrie/.git && \
     apt-get remove -y git libssl-dev gcc python3-dev && \
     apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
-RUN sed -i -e 's/output_hpfeeds/output_hpfeeds3/g' /opt/cowrie/src/cowrie/output/hpfeeds3.py && \
+    rm -rf /var/lib/apt/lists/* \
     rm /opt/cowrie/src/cowrie/output/hpfeeds.py
 ADD cowrie.reference.cfg /code/cowrie.reference.cfg
 ADD entrypoint.sh /code/
