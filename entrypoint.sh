@@ -48,6 +48,7 @@ main () {
     export COWRIE_output_hpfeeds3__port="${FEEDS_SERVER_PORT:-10000}"
     export COWRIE_output_hpfeeds3__identifier="${uid}"
     export COWRIE_output_hpfeeds3__secret="${secret}"
+    export COWRIE_output_hpfeeds3__tags="${tags}"
 
     if [[ ${ipv6} == "true" ]]
     then
