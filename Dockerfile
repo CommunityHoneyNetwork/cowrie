@@ -41,6 +41,7 @@ RUN apt-get update \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* \
     rm /opt/cowrie/src/cowrie/output/hpfeeds.py
+ADD output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
 ADD cowrie.reference.cfg /code/cowrie.reference.cfg
 ADD entrypoint.sh /code/
 
