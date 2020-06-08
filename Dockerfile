@@ -19,8 +19,9 @@ ADD requirements.txt /code/
 RUN useradd cowrie
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev git authbind jq libsnappy-dev && \
+    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev git authbind jq libsnappy-dev libffi libffi-dev openssl-dev && \
     pip3 install --no-build-isolation pendulum==2.1.0 && \
+    pip3 install poetry && \
     pip3 install -r /code/requirements.txt && \
     cd /opt && \
     git clone --branch "${COWRIE_VERS}" http://github.com/cowrie/cowrie && \
