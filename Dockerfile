@@ -14,12 +14,14 @@ ENV DOCKER "yes"
 ENV COWRIE_VERS "v2.1.0"
 
 RUN mkdir /code
-ADD requirements.txt /code/
+COPY requirements.txt /code/
 
 RUN useradd cowrie
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev git authbind jq libsnappy-dev && \
+    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev git authbind jq libsnappy-dev  && \
+    pip3 install poetry==1.0.8 && \
+    pip3 install --no-build-isolation pendulum==2.1.0 && \
     pip3 install -r /code/requirements.txt && \
     cd /opt && \
     git clone --branch "${COWRIE_VERS}" http://github.com/cowrie/cowrie && \
@@ -41,9 +43,9 @@ RUN apt-get update \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/* \
     rm /opt/cowrie/src/cowrie/output/hpfeeds.py
-ADD output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
-ADD cowrie.reference.cfg /code/cowrie.reference.cfg
-ADD entrypoint.sh /code/
+COPY output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
+COPY cowrie.reference.cfg /code/cowrie.reference.cfg
+COPY entrypoint.sh /code/
 
 VOLUME /data
 
