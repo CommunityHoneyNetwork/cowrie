@@ -20,31 +20,33 @@ COPY requirements.txt /code/
 
 RUN useradd cowrie
 
+# hadolint ignore=DL3008
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc python3-dev libssl-dev git authbind jq libsnappy-dev  && \
-    pip3 install poetry==1.0.8 && \
-    pip3 install --no-build-isolation pendulum==2.1.0 && \
-    pip3 install -r /code/requirements.txt && \
-    cd /opt && \
-    git clone --branch "${COWRIE_VERS}" http://github.com/cowrie/cowrie && \
-    pip3 install -r /opt/cowrie/requirements.txt && \
-    pip3 install -r /opt/cowrie/requirements-output.txt && \
-    cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt && \
-    bash -c "touch /etc/authbind/byport/{1..1024}" && \
-    chmod 755 /etc/authbind/byport/* && \
-    mkdir /data/ /etc/cowrie && \
-    chgrp -R 0 /data && \
-    chmod -R g=u /data && \
-    chown -R cowrie /data && \
-    chgrp -R 0 /opt/cowrie && \
-    chmod -R g=u /opt/cowrie && \
-    chown -R cowrie /opt/cowrie && \
-    chown -R cowrie /etc/cowrie && \
-    rm -rf /opt/cowrie/.git && \
-    apt-get remove -y git libssl-dev gcc python3-dev && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* \
-    rm /opt/cowrie/src/cowrie/output/hpfeeds.py
+    && apt-get install --no-install-recommends -y gcc python3-dev libssl-dev git authbind jq libsnappy-dev \
+    && python3 -m pip install --upgrade pip setuptools wheel \
+    && python3 -m pip install poetry==1.0.8 \
+    && python3 -m pip install --no-build-isolation pendulum==2.1.0 \
+    && python3 -m pip install -r /code/requirements.txt \
+    && cd /opt \
+    && git clone --branch "${COWRIE_VERS}" http://github.com/cowrie/cowrie \
+    && python3 -m pip install -r /opt/cowrie/requirements.txt \
+    && python3 -m pip install -r /opt/cowrie/requirements-output.txt \
+    && cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt \
+    && bash -c "touch /etc/authbind/byport/{1..1024}" \
+    && chmod 755 /etc/authbind/byport/* \
+    && mkdir /data/ /etc/cowrie \
+    && chgrp -R 0 /data \
+    && chmod -R g=u /data \
+    && chown -R cowrie /data \
+    && chgrp -R 0 /opt/cowrie \
+    && chmod -R g=u /opt/cowrie \
+    && chown -R cowrie /opt/cowrie \
+    && chown -R cowrie /etc/cowrie \
+    && rm -rf /opt/cowrie/.git \
+    && apt-get remove -y git libssl-dev gcc python3-dev \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm /opt/cowrie/src/cowrie/output/hpfeeds.py
 COPY output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
 COPY cowrie.reference.cfg /code/cowrie.reference.cfg
 COPY entrypoint.sh /code/
