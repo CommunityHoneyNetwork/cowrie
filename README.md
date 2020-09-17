@@ -6,6 +6,5 @@ Cowrie
 
 Find the documentation here: [https://communityhoneynetwork.readthedocs.io](https://communityhoneynetwork.readthedocs.io)
 
-| branch | build status |
-| ---    | ---          |
-| master | [![master status](https://gitlab.oit.duke.edu/stingar/cowrie/badges/master/pipeline.svg)](https://gitlab.oit.duke.edu/stingar/cowrie/commits/master)|
+
+![CI](https://github.com/CommunityHoneyNetwork/cowrie/workflows/CI/badge.svg)
