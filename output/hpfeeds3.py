@@ -108,7 +108,10 @@ class Output(cowrie.core.output.Output):
 
         elif entry["eventid"] == 'cowrie.client.version':
             v = entry['version']
-            self.meta[session]['version'] = v
+            if isinstance(v, bytes):
+                self.meta[session]['version'] = v.decode('utf8')
+            else:
+                self.meta[session]['version'] = v
 
         elif entry["eventid"] == 'cowrie.log.closed':
             # entry["ttylog"]
