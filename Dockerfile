@@ -47,6 +47,7 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm /opt/cowrie/src/cowrie/output/hpfeeds.py
+COPY patches/src_cowrie_ssh_transport.py /opt/cowrie/src/cowrie/ssh/transport.py
 COPY output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
 COPY cowrie.reference.cfg /code/cowrie.reference.cfg
 COPY entrypoint.sh /code/
