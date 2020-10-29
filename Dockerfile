@@ -51,7 +51,7 @@ COPY patches/src_cowrie_ssh_transport.py /opt/cowrie/src/cowrie/ssh/transport.py
 COPY output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
 COPY cowrie.reference.cfg /code/cowrie.reference.cfg
 COPY entrypoint.sh /code/
-
+RUN chown -R cowrie /usr/local/lib/python3.7/site-packages/twisted/plugins/
 VOLUME /data
 
 USER cowrie
