@@ -54,8 +54,8 @@ main () {
     export COWRIE_output_s3__enabled="${S3_OUTPUT_ENABLED:-false}"
     export COWRIE_output_s3__access_key_id="${S3_ACCESS_KEY:-${uid}}"
     export COWRIE_output_s3__secret_access_key="${S3_SECRET_KEY:-${secret}}"
-    export COWRIE_output_s3__region="${S3_REGION:-placeholder}"
-    export COWRIE_output_s3__bucket="${S3_BUCKET:-cowrie}"
+    export COWRIE_output_s3__region="${S3_REGION:-region}"
+    export COWRIE_output_s3__bucket="${S3_BUCKET:-${uid}}"
     export COWRIE_output_s3__endpoint="${S3_ENDPOINT:-${default_endpoint}}"
     export COWRIE_output_s3__verify="${S3_VERIFY:-no}"
 
