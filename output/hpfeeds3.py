@@ -127,6 +127,11 @@ class Output(cowrie.core.output.Output):
             self.meta[session]['width'] = entry['width']
             self.meta[session]['height'] = entry['height']
 
+        elif entry["eventid"] == 'cowrie.client.fingerprint':
+            self.meta[session]['fingerprint'] = entry['fingerprint']
+            self.meta[session]['key'] = entry['key']
+            self.meta[session]['key_type'] = entry['type']
+
         elif entry["eventid"] == 'cowrie.log.closed':
             # entry["ttylog"]
             with open(entry["ttylog"], 'rb') as ttylog:
