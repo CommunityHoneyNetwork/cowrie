@@ -11,7 +11,7 @@ LABEL changelog-url "https://github.com/CommunityHoneyNetwork/communityhoneynetw
 
 # Set DOCKER var - used by Cowrie init to determine logging
 ENV DOCKER "yes"
-ENV COWRIE_VERS "v2.1.0"
+ENV COWRIE_VERS "v2.2.0"
 ENV DEBIAN_FRONTEND "noninteractive"
 # hadolint ignore=DL3008,DL3005
 
@@ -51,7 +51,7 @@ COPY patches/src_cowrie_ssh_transport.py /opt/cowrie/src/cowrie/ssh/transport.py
 COPY output/hpfeeds3.py /opt/cowrie/src/cowrie/output/
 COPY cowrie.reference.cfg /code/cowrie.reference.cfg
 COPY entrypoint.sh /code/
-
+RUN chown -R cowrie /usr/local/lib/python3.7/site-packages/twisted/plugins/
 VOLUME /data
 
 USER cowrie
