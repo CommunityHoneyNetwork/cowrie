@@ -137,7 +137,6 @@ class Output(cowrie.core.output.Output):
             self.meta[session]['key_type'] = entry['type']
 
         elif entry["eventid"] == 'cowrie.log.closed':
-            # entry["ttylog"]
             with open(entry["ttylog"], 'rb') as ttylog:
                 self.meta[session]['ttylog'] = ttylog.read().hex()
 
