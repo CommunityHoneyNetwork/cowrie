@@ -117,6 +117,25 @@ class Output(cowrie.core.output.Output):
             else:
                 self.meta[session]['version'] = v
 
+        elif entry["eventid"] == 'cowrie.client.kex':
+            self.meta[session]['hassh'] = entry['hassh']
+            self.meta[session]['hasshAlgorithms'] = entry['hasshAlgorithms']
+            self.meta[session]['kexAlgs'] = entry['kexAlgs']
+            self.meta[session]['keyAlgs'] = entry['keyAlgs']
+            self.meta[session]['encCS'] = entry['encCS']
+            self.meta[session]['macCS'] = entry['macCS']
+            self.meta[session]['compCS'] = entry['compCS']
+            self.meta[session]['langCS'] = entry['langCS']
+
+        elif entry["eventid"] == 'cowrie.client.size':
+            self.meta[session]['width'] = entry['width']
+            self.meta[session]['height'] = entry['height']
+
+        elif entry["eventid"] == 'cowrie.client.fingerprint':
+            self.meta[session]['fingerprint'] = entry['fingerprint']
+            self.meta[session]['key'] = entry['key']
+            self.meta[session]['key_type'] = entry['type']
+
         elif entry["eventid"] == 'cowrie.log.closed':
             # entry["ttylog"]
             with open(entry["ttylog"], 'rb') as ttylog:
