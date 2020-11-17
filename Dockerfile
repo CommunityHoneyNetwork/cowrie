@@ -11,7 +11,7 @@ LABEL changelog-url "https://github.com/CommunityHoneyNetwork/communityhoneynetw
 
 # Set DOCKER var - used by Cowrie init to determine logging
 ENV DOCKER "yes"
-ENV COWRIE_VERS "v2.1.0"
+ENV COWRIE_VERS "v2.2.0"
 ENV DEBIAN_FRONTEND "noninteractive"
 # hadolint ignore=DL3008,DL3005
 
