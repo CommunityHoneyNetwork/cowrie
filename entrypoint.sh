@@ -50,6 +50,16 @@ main () {
     export COWRIE_output_hpfeeds3__secret="${secret}"
     export COWRIE_output_hpfeeds3__tags="${tags}"
 
+    local default_endpoint="http://${FEEDS_SERVER}:8000"
+    export COWRIE_output_s3__enabled="${S3_OUTPUT_ENABLED:-false}"
+    export COWRIE_output_s3__access_key_id="${S3_ACCESS_KEY:-${uid}}"
+    export COWRIE_output_s3__secret_access_key="${S3_SECRET_KEY:-${secret}}"
+    export COWRIE_output_s3__region="${S3_REGION:-region}"
+    export COWRIE_output_s3__bucket="${S3_BUCKET:-${uid}}"
+    export COWRIE_output_s3__endpoint="${S3_ENDPOINT:-${default_endpoint}}"
+    export COWRIE_output_s3__verify="${S3_VERIFY:-no}"
+
+
     if [[ ${ipv6} == "true" ]]
     then
       export COWRIE_ssh__listen_endpoints="tcp:${SSH_LISTEN_PORT:-2222}:interface=\:\:"
