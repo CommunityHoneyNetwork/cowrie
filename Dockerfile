@@ -1,13 +1,13 @@
 FROM python:3.7
 
-LABEL maintainer "Team Stingar <team.stingar@duke.edu>"
-LABEL name "cowrie"
-LABEL version "1.9.2"
-LABEL release "1"
-LABEL summary "Cowrie HoneyPot container"
-LABEL description "Cowrie is a medium interaction SSH and Telnet honeypot designed to log brute force attacks and the shell interaction performed by the attacker."
-LABEL authoritative-source-url "https://github.com/CommunityHoneyNetwork/cowrie"
-LABEL changelog-url "https://github.com/CommunityHoneyNetwork/cowrie/commits/master"
+LABEL maintainer="Team Stingar <team-stingar@duke.edu>"
+LABEL name="cowrie"
+LABEL version="1.9.2"
+LABEL release="1"
+LABEL summary="Cowrie HoneyPot container"
+LABEL description="Cowrie is a medium interaction SSH and Telnet honeypot designed to log brute force attacks and the shell interaction performed by the attacker."
+LABEL authoritative-source-url="https://github.com/CommunityHoneyNetwork/cowrie"
+LABEL changelog-url="https://github.com/CommunityHoneyNetwork/cowrie/commits/master"
 
 # Set DOCKER var - used by Cowrie init to determine logging
 ENV DOCKER "yes"
