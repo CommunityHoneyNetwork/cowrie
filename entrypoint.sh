@@ -38,7 +38,7 @@ main () {
         -d "${DEPLOY_KEY}" \
         -u "${CHN_SERVER}" -k \
         -o "${COWRIE_JSON}" \
-        -i "${IP_ADDRESS}"
+        -i "${IP_ADDRESS:-""}"
 
     local uid="$(cat ${COWRIE_JSON} | jq -r .identifier)"
     local secret="$(cat ${COWRIE_JSON} | jq -r .secret)"
