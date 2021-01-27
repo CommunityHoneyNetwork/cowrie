@@ -10,7 +10,7 @@ services:
     environment:
       DEBUG: "true"
       AUTHBIND_ENABLED: ""
-      IP_ADDRESS: 10.0.0.1
+      REPORTED_IP: 10.0.0.1
       CHN_SERVER: "http://chnserver"
       FEEDS_SERVER: "localhost"
       DEPLOY_KEY: "FOO"

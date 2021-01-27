@@ -38,7 +38,7 @@ main () {
         -d "${DEPLOY_KEY}" \
         -u "${CHN_SERVER}" -k \
         -o "${COWRIE_JSON}" \
-        -i "${IP_ADDRESS:-""}"
+        -i "${REPORTED_IP:-""}"
 
     local uid="$(cat ${COWRIE_JSON} | jq -r .identifier)"
     local secret="$(cat ${COWRIE_JSON} | jq -r .secret)"
@@ -49,6 +49,10 @@ main () {
     export COWRIE_output_hpfeeds3__identifier="${uid}"
     export COWRIE_output_hpfeeds3__secret="${secret}"
     export COWRIE_output_hpfeeds3__tags="${tags}"
+    if [ ! -z "${REPORTED_IP}" ]
+    then
+      export COWRIE_output_hpfeeds3__reported_ip="${REPORTED_IP}"
+    fi
 
     local default_endpoint="http://${FEEDS_SERVER}:8000"
     export COWRIE_output_s3__enabled="${S3_OUTPUT_ENABLED:-false}"
