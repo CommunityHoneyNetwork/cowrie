@@ -51,7 +51,7 @@ class Output(cowrie.core.output.Output):
         if CowrieConfig().has_option('output_hpfeeds3', 'reported_ip'):
             self.reported_ip = CowrieConfig().get('output_hpfeeds3', 'reported_ip')
             if self.reported_ip == 'UNSET_REPORTED_IP':
-                self.reported_ip = ''
+                self.reported_ip = None
 
         ident = CowrieConfig().get('output_hpfeeds3', 'identifier')
         secret = CowrieConfig().get('output_hpfeeds3', 'secret')
@@ -86,10 +86,9 @@ class Output(cowrie.core.output.Output):
                 'hashes': set(),
                 'protocol': entry['protocol']
             }
-
-        if self.reported_ip:
-            logging.warning('Reported_IP: {}, Session: {}'.format(self.reported_ip,self.meta[session]))
-            self.meta[session]["peerIP"] = self.reported_ip
+            if self.reported_ip:
+                logging.warning('Reported_IP: {}, Session: {}'.format(self.reported_ip,self.meta[session]))
+                self.meta[session]["hostIP"] = self.reported_ip
 
         elif entry["eventid"] == 'cowrie.login.success':
             u, p = entry['username'], entry['password']
