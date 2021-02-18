@@ -22,7 +22,7 @@ RUN useradd cowrie
 
 # hadolint ignore=DL3008
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y gcc python3-dev libssl-dev git authbind jq libsnappy-dev rustc \
+    && apt-get install --no-install-recommends -y gcc python3-dev libssl-dev git authbind jq libsnappy-dev rustc cargo\
     && python3 -m pip install --upgrade pip setuptools wheel \
     && python3 -m pip install poetry==1.0.8 \
     && python3 -m pip install --no-build-isolation pendulum==2.1.0 \
@@ -43,7 +43,7 @@ RUN apt-get update \
     && chown -R cowrie /opt/cowrie \
     && chown -R cowrie /etc/cowrie \
     && rm -rf /opt/cowrie/.git \
-    && apt-get remove -y git libssl-dev gcc python3-dev rustc \
+    && apt-get remove -y git libssl-dev gcc python3-dev rustc cargo\
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm /opt/cowrie/src/cowrie/output/hpfeeds.py
